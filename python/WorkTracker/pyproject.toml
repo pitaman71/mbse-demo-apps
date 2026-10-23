@@ -1,0 +1,22 @@
+[build-system]
+requires = ["setuptools>=64"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "mbse-demo-worktracker"
+version = "0.1.0"
+description = "A work tracker: the demo application of the schema-driven index site"
+requires-python = ">=3.11"
+dependencies = ["mbse-schemas>=0.24.0,<0.25"]
+
+[tool.setuptools.packages.find]
+include = ["WorkTracker*"]
+
+[dependency-groups]
+dev = ["pytest>=9.1.1"]
+
+[tool.uv.sources]
+mbse-schemas = { path = "../../../mbse-schemas/python3", editable = true }  # the sibling checkout, pinned in siblings.json
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
