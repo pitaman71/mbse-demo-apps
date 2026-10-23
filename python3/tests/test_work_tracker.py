@@ -5,7 +5,7 @@ from __future__ import annotations
 import pytest
 from mbse.Schemas.Framework import Builders, Paths, References
 
-from WorkTracker import Schemas, Seed
+from mbse.Demos.Apps.WorkTracker import Schemas, Seed
 
 NAMES = [
     "work.Project", "work.Feature", "work.Capability", "work.Result", "work.Task", "work.Comment", "work.Schedule",

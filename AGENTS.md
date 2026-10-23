@@ -1,6 +1,6 @@
 # Guide for AI agents
 
-Demo applications for the mbse repositories, one directory per app and language (`python/WorkTracker`). Each app's
+Demo applications for the mbse repositories, one package per app under `mbse.Demos.Apps`, laid out as every mbse repository is (`python3/mbse/Demos/Apps/WorkTracker`). Each app's
 schemas are a module-scope `install(txn)`, written out in the builders' fluent syntax (mbse-basis P-019), and its seed
 data a transaction of its own.
 
@@ -12,4 +12,4 @@ data a transaction of its own.
   them: never edit a sibling from here.
 - **Every element an app's UI browses has a reference**: owned by a singleton directory, keyed by an ID its naming
   pattern generates, or a singleton itself (VISUALIZATION.md, FEA-003).
-- **Tests run with pytest** from the app's directory: `uv sync && uv run pytest`. Use uv, never pip.
+- **Tests run with pytest** from `python3/`: `uv sync && uv run pytest`. Use uv, never pip.

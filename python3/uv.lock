@@ -21,7 +21,7 @@ wheels = [
 ]
 
 [[package]]
-name = "mbse-demo-worktracker"
+name = "mbse-demo-apps"
 version = "0.1.0"
 source = { editable = "." }
 dependencies = [
@@ -34,7 +34,7 @@ dev = [
 ]
 
 [package.metadata]
-requires-dist = [{ name = "mbse-schemas", editable = "../../../mbse-schemas/python3" }]
+requires-dist = [{ name = "mbse-schemas", editable = "../../mbse-schemas/python3" }]
 
 [package.metadata.requires-dev]
 dev = [{ name = "pytest", specifier = ">=9.1.1" }]
@@ -42,7 +42,7 @@ dev = [{ name = "pytest", specifier = ">=9.1.1" }]
 [[package]]
 name = "mbse-schemas"
 version = "0.24.0"
-source = { editable = "../../../mbse-schemas/python3" }
+source = { editable = "../../mbse-schemas/python3" }
 
 [package.metadata]
 requires-dist = [{ name = "pyyaml", marker = "extra == 'yaml'", specifier = ">=6" }]
