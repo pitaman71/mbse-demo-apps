@@ -148,7 +148,7 @@ def install(txn: Any) -> Any:
             }).uniques(["original", "forecast", "completed", "progress"]),  # (goal, capability) determine the rest
 
             # --- The elements ---
-            lambda _: _.Project.name("work.Project").ref(True).properties({
+            lambda _: _.Project.name("work.Project").description("A body of work with a purpose, broken down into features.").ref(True).properties({
                 "title": S.OfStr,
                 "description": S.OfStr,
             }).adjacencies([
@@ -156,7 +156,7 @@ def install(txn: Any) -> Any:
                 lambda t: t.name("features").relation([_.HasFeature]).me("project"),
                 lambda t: t.name("comments").relation([_.About]).me("topic"),
             ]),
-            lambda _: _.Feature.name("work.Feature").ref(True).properties({
+            lambda _: _.Feature.name("work.Feature").description("A capability area of a project, broken down into capabilities.").ref(True).properties({
                 "title": S.OfStr,
                 "description": S.OfStr,
             }).adjacencies([
@@ -165,7 +165,7 @@ def install(txn: Any) -> Any:
                 lambda t: t.name("capabilities").relation([_.HasCapability]).me("feature"),
                 lambda t: t.name("comments").relation([_.About]).me("topic"),
             ]),
-            lambda _: _.Capability.name("work.Capability").ref(True).properties({
+            lambda _: _.Capability.name("work.Capability").description("Something the system must be able to do, delivered through results.").ref(True).properties({
                 "title": S.OfStr,
                 "description": S.OfStr,
             }).adjacencies([
@@ -175,7 +175,7 @@ def install(txn: Any) -> Any:
                 lambda t: t.name("goals").relation([_.Plans]).me("capability"),
                 lambda t: t.name("comments").relation([_.About]).me("topic"),
             ]),
-            lambda _: _.Result.name("work.Result").ref(True).properties({
+            lambda _: _.Result.name("work.Result").description("A verifiable outcome that shows a capability works, reached through tasks.").ref(True).properties({
                 "title": S.OfStr,
                 "description": S.OfStr,
             }).adjacencies([
@@ -184,7 +184,7 @@ def install(txn: Any) -> Any:
                 lambda t: t.name("tasks").relation([_.HasTask]).me("result"),
                 lambda t: t.name("comments").relation([_.About]).me("topic"),
             ]),
-            lambda _: _.Task.name("work.Task").ref(True).properties({
+            lambda _: _.Task.name("work.Task").description("A unit of work toward a result.").ref(True).properties({
                 "title": S.OfStr,
                 "description": S.OfStr,
             }).adjacencies([
@@ -192,21 +192,21 @@ def install(txn: Any) -> Any:
                 lambda t: t.name("result").relation([_.HasTask]).me("task"),
                 lambda t: t.name("comments").relation([_.About]).me("topic"),
             ]),
-            lambda _: _.Comment.name("work.Comment").ref(True).properties({
+            lambda _: _.Comment.name("work.Comment").description("A remark about one or more organization elements, which may be resolved.").ref(True).properties({
                 "text": S.OfStr,
                 "resolved": S.OfBool,
             }).adjacencies([
                 lambda t: t.name("directory").relation([_.InComments]).me("comment").owner(True),
                 lambda t: t.name("about").relation([_.About]).me("comment"),
             ]),
-            lambda _: _.Schedule.name("work.Schedule").ref(True).properties({
+            lambda _: _.Schedule.name("work.Schedule").description("A plan of goals over time.").ref(True).properties({
                 "title": S.OfStr,
                 "description": S.OfStr,
             }).adjacencies([
                 lambda t: t.name("directory").relation([_.InSchedules]).me("schedule").owner(True),
                 lambda t: t.name("goals").relation([_.HasGoal]).me("schedule"),
             ]),
-            lambda _: _.Goal.name("work.Goal").ref(True).properties({
+            lambda _: _.Goal.name("work.Goal").description("A milestone of a schedule: the capabilities due by it, each with its dates and progress.").ref(True).properties({
                 "title": S.OfStr,
                 "description": S.OfStr,
             }).adjacencies([
