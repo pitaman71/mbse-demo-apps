@@ -13,3 +13,22 @@ Each app depends on its mbse siblings as checkouts beside this repository (`../m
 ```sh
 cd python3 && uv sync && uv run pytest
 ```
+
+## Running the demo
+
+The single-user demo (VISUALIZATION.md, Priorities): the WorkTracker served by mbse-rest and browsed with mbse-react,
+its store kept in memory or in DynamoDB Local (FEA-006, CAP-013).
+
+```sh
+scripts/demo.sh              # in memory: a fresh store each run
+scripts/demo.sh dynamodb     # in DynamoDB Local, in Docker: writes survive a restart of the service
+scripts/demo.sh dynamodb --check   # start everything, check each part answers, stop it all
+```
+
+Then open http://localhost:5173/. It needs the sibling checkouts beside this repository (mbse-schemas, mbse-rest,
+mbse-react, and mbse-dynamodb for `dynamodb`), uv, npm, curl, and Docker for `dynamodb`. The service listens on
+8000, DynamoDB Local on 8001, the UI on 5173.
+
+*Decided by the agent, for review:* the script runs mbse-rest, mbse-dynamodb and mbse-react as they are checked out,
+without pinning them in `siblings.json`: mbse-rest pins this repository (its tests and corpus run the WorkTracker), and
+pinning it back would make the siblings a cycle, which `polyrepo.py land` cannot order.

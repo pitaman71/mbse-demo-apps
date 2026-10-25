@@ -35,6 +35,12 @@ def test_schemas_are_valid(store):
         assert store.registered(name).validate() == [], name
 
 
+def test_every_element_schema_is_described(store):
+    """CAP-009 browses only schemas with a registered name and a description."""
+    for name in NAMES:
+        assert store.registered(name).description, name
+
+
 def test_install_and_seed_write_nothing_again(store):
     before = {name: len(list(store.extent(name))) for name in NAMES}
     store.transaction(Schemas.install)
