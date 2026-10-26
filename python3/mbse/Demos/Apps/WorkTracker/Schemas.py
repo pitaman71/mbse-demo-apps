@@ -207,8 +207,8 @@ def install(txn: Any) -> Any:
             }).adjacencies([
                 lambda t: t.name("directory").relation([_.InComments]).me("comment").owner(True),
                 lambda t: t.name("about").relation([_.About]).me("comment"),
-                lambda t: t.name("replies").relation([_.RepliesTo]).me("thread"),
                 lambda t: t.name("thread").relation([_.RepliesTo]).me("reply"),
+                lambda t: t.name("replies").relation([_.RepliesTo]).me("thread"),  # last: a thread's detail ends with them
             ]),
             lambda _: _.Schedule.name("work.Schedule").description("A plan of goals over time.").ref(True).properties({
                 "title": S.OfStr,
