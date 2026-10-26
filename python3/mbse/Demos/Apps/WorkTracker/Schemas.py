@@ -12,7 +12,9 @@ from __future__ import annotations
 
 from typing import Any
 
-__all__ = ["install"]
+from mbse.Schemas.Framework import Provenance
+
+__all__ = ["install", "history", "INSTALLS"]
 
 
 def install(txn: Any) -> Any:
@@ -224,3 +226,15 @@ def install(txn: Any) -> Any:
                 lambda t: t.name("capabilities").relation([_.Plans]).me("goal"),
             ]),
         ])]))])
+
+
+def history(txn: Any) -> Any:
+    """The WorkTracker's schemas that have a history (VISUALIZATION.md, CAP-015): its comments, each with the
+    transaction that created it and the latest that wrote it, its session and identity. Run after `install` and
+    `Provenance.install`; run again, it writes nothing."""
+    return Provenance.extend(txn, [txn.work.Comment])
+
+
+INSTALLS = [install, Provenance.install, history]
+"""The WorkTracker's installs, in order: its schemas, the records of transactions, and which schemas have a history.
+A service runs them, then `Seed.seed`."""
