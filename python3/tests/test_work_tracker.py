@@ -16,7 +16,8 @@ NAMES = [
 @pytest.fixture
 def store():
     store = Builders.Store()
-    store.transaction(Schemas.install)
+    for install in Schemas.INSTALLS:
+        store.transaction(install)
     store.transaction(Seed.seed)
     return store
 
@@ -43,7 +44,8 @@ def test_every_element_schema_is_described(store):
 
 def test_install_and_seed_write_nothing_again(store):
     before = {name: len(list(store.extent(name))) for name in NAMES}
-    store.transaction(Schemas.install)
+    for install in Schemas.INSTALLS:
+        store.transaction(install)
     store.transaction(Seed.seed)
     assert {name: len(list(store.extent(name))) for name in NAMES} == before
 
@@ -80,10 +82,19 @@ def test_every_element_has_a_reference(store):
             assert References.resolve(store, References.of(store, obj)) is obj
 
 
-def test_a_comment_is_about_several_elements(store):
-    comment = find(store, "work.Comments", "comments", "CMT-001")
-    assert sorted(str(e.topic.title) for e in comment.about) == ["Logical view as chip", "Object browser"]
-    assert comment.resolved.get() is False
+def test_a_thread_is_about_several_elements(store):
+    thread = find(store, "work.Comments", "comments", "CMT-001")
+    assert sorted(str(e.topic.title) for e in thread.about) == ["Logical view as chip", "Object browser"]
+
+
+def test_replies_answer_one_thread_and_one_resolves_it(store):
+    """CAP-016: two levels, a thread (About) and its replies (RepliesTo); a reply may resolve its thread."""
+    thread = find(store, "work.Comments", "comments", "CMT-001")
+    replies = [e.reply for e in thread.replies]
+    assert [str(r.text) for r in replies] == ["Not by default: a chip stays small. The inspector lists them.",
+                                            "Agreed, *no adjacencies* on chips."]
+    assert [r.resolves_thread.get() for r in replies] == [False, True]
+    assert all(list(r.about) == [] and [e.thread for e in r.thread] == [thread] for r in replies)
 
 
 def test_a_goal_plans_its_capabilities(store):
@@ -101,3 +112,19 @@ def test_an_adjacency_from_one_object_by_reference(store):
         .symbols({"f": References.of(store, views), "c": store.work.Capability})
         .spec([lambda _: _.f.capabilities([_.c])])]))]))
     assert [str(frame["c"].title) for frame in frames] == ["Logical view as chip", "Logical view of object as detail"]
+
+
+def test_comments_have_a_history_and_other_elements_do_not(store):
+    """CAP-015: the seed's comments were created by its transaction, recorded with the placeholder session and
+    identity (no service stamped it); a task, whose schema has no history, has no record."""
+    thread = find(store, "work.Comments", "comments", "CMT-001")
+    [frame] = store.transaction(lambda t: t.mutations([lambda mu: mu.map(lambda m: m.symbols([lambda p: p
+        .symbols({"c": References.of(store, thread), "t": store.Provenance.OfTransaction,
+                  "s": store.Provenance.OfSession, "i": store.Provenance.OfIdentity})
+        .spec([lambda _: _.t.created([_.c]), lambda _: _.t.session([_.s]), lambda _: _.s.who([_.i])])]))]))
+    assert str(frame["t"].when).endswith("Z")
+    assert [str(e.id) for e in frame["s"].directory] == ["unknown"]
+    task = find(store, "work.Tasks", "tasks", "TSK-001")
+    assert store.transaction(lambda t: t.mutations([lambda mu: mu.map(lambda m: m.symbols([lambda p: p
+        .symbols({"x": References.of(store, task), "t": store.Provenance.OfTransaction})
+        .spec([lambda _: _.t.created([_.x])])]))])) == []
