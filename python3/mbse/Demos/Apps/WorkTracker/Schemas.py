@@ -1,7 +1,7 @@
 """The work tracker's schemas, defined by `install(txn)`: `store.transaction(Schemas.install)`.
 
 Organization: project -> feature -> capability -> result -> task. Planning: schedule -> goal -> capabilities, each
-with its original, forecast and completed date and its progress. Comments are about organization elements.
+with its original, forecast and completed date and its progress. Comments are threads about organization elements, and replies to threads.
 
 Every element is owned and addressed through its schema, never its parent: each schema has a singleton directory
 that owns its objects, keyed by `id`, which the key's naming pattern generates where none is given. An ID is
@@ -29,7 +29,8 @@ def install(txn: Any) -> Any:
             "InResults": S.OfRelation, "InTasks": S.OfRelation, "InComments": S.OfRelation,
             "InSchedules": S.OfRelation, "InGoals": S.OfRelation,
             "HasFeature": S.OfRelation, "HasCapability": S.OfRelation, "HasResult": S.OfRelation,
-            "HasTask": S.OfRelation, "HasGoal": S.OfRelation, "About": S.OfRelation, "Plans": S.OfRelation,
+            "HasTask": S.OfRelation, "HasGoal": S.OfRelation, "About": S.OfRelation, "RepliesTo": S.OfRelation,
+            "Plans": S.OfRelation,
         })
         .spec([
             # --- Directories: a singleton per schema, owning its objects by `id` ---
@@ -130,11 +131,15 @@ def install(txn: Any) -> Any:
                 lambda t: t.name("goal"),
             ]).uniques("schedule"),
 
-            # --- Comments, about one or more organization elements ---
+            # --- Comments: a thread is about one or more organization elements; a reply answers one thread ---
             lambda _: _.About.name("work.About").links([
                 lambda t: t.name("comment"),
                 lambda t: t.name("topic"),
             ]).uniques([]),  # a set: a comment is about a topic once
+            lambda _: _.RepliesTo.name("work.RepliesTo").links([
+                lambda t: t.name("reply"),
+                lambda t: t.name("thread"),
+            ]).uniques("thread"),  # a reply answers one thread
 
             # --- Planning: a goal's capabilities, each with its dates and progress ---
             lambda _: _.Plans.name("work.Plans").links([
@@ -192,12 +197,16 @@ def install(txn: Any) -> Any:
                 lambda t: t.name("result").relation([_.HasTask]).me("task"),
                 lambda t: t.name("comments").relation([_.About]).me("topic"),
             ]),
-            lambda _: _.Comment.name("work.Comment").description("A remark about one or more organization elements, which may be resolved.").ref(True).properties({
+            lambda _: _.Comment.name("work.Comment").description(
+                "A remark: a thread about one or more organization elements, or a reply to a thread, which may resolve it.",
+            ).ref(True).properties({
                 "text": S.OfStr,
-                "resolved": S.OfBool,
+                "resolves_thread": S.OfBool,  # a reply's: it resolves the thread it answers
             }).adjacencies([
                 lambda t: t.name("directory").relation([_.InComments]).me("comment").owner(True),
                 lambda t: t.name("about").relation([_.About]).me("comment"),
+                lambda t: t.name("replies").relation([_.RepliesTo]).me("thread"),
+                lambda t: t.name("thread").relation([_.RepliesTo]).me("reply"),
             ]),
             lambda _: _.Schedule.name("work.Schedule").description("A plan of goals over time.").ref(True).properties({
                 "title": S.OfStr,

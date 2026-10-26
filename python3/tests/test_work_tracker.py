@@ -80,10 +80,19 @@ def test_every_element_has_a_reference(store):
             assert References.resolve(store, References.of(store, obj)) is obj
 
 
-def test_a_comment_is_about_several_elements(store):
-    comment = find(store, "work.Comments", "comments", "CMT-001")
-    assert sorted(str(e.topic.title) for e in comment.about) == ["Logical view as chip", "Object browser"]
-    assert comment.resolved.get() is False
+def test_a_thread_is_about_several_elements(store):
+    thread = find(store, "work.Comments", "comments", "CMT-001")
+    assert sorted(str(e.topic.title) for e in thread.about) == ["Logical view as chip", "Object browser"]
+
+
+def test_replies_answer_one_thread_and_one_resolves_it(store):
+    """CAP-016: two levels, a thread (About) and its replies (RepliesTo); a reply may resolve its thread."""
+    thread = find(store, "work.Comments", "comments", "CMT-001")
+    replies = [e.reply for e in thread.replies]
+    assert [str(r.text) for r in replies] == ["Not by default: a chip stays small. The inspector lists them.",
+                                            "Agreed, *no adjacencies* on chips."]
+    assert [r.resolves_thread.get() for r in replies] == [False, True]
+    assert all(list(r.about) == [] and [e.thread for e in r.thread] == [thread] for r in replies)
 
 
 def test_a_goal_plans_its_capabilities(store):

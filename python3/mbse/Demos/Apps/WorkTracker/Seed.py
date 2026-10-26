@@ -23,7 +23,7 @@ def seed(txn: Any) -> Any:
             "index": W.Capability, "chip": W.Capability, "detail": W.Capability,
             "browser": W.Result,
             "install": W.Task, "seeded": W.Task,
-            "question": W.Comment,
+            "question": W.Comment, "answer": W.Comment, "agreed": W.Comment,
             "mvp": W.Schedule,
             "demoable": W.Goal,
         })
@@ -44,7 +44,11 @@ def seed(txn: Any) -> Any:
                 "TSK-001": lambda e: e.task(_.install),
                 "TSK-002": lambda e: e.task(_.seeded),
             }),
-            lambda _: _.comments.comments({"CMT-001": lambda e: e.comment(_.question)}),
+            lambda _: _.comments.comments({
+                "CMT-001": lambda e: e.comment(_.question),
+                "CMT-002": lambda e: e.comment(_.answer),
+                "CMT-003": lambda e: e.comment(_.agreed),
+            }),
             lambda _: _.schedules.schedules({"SCH-001": lambda e: e.schedule(_.mvp)}),
             lambda _: _.goals.goals({"GOL-001": lambda e: e.goal(_.demoable)}),
 
@@ -83,8 +87,15 @@ def seed(txn: Any) -> Any:
             .description("Write a small project for the browsers to show."),
             lambda _: _.question
             .text("Should chips show adjacencies?")
-            .resolved(False)
             .about([_.chip, _.browser]),
+            lambda _: _.answer
+            .text("Not by default: a chip stays small. The inspector lists them.")
+            .resolves_thread(False)
+            .thread([_.question]),
+            lambda _: _.agreed
+            .text("Agreed, *no adjacencies* on chips.")
+            .resolves_thread(True)
+            .thread([_.question]),
 
             # --- Planning ---
             lambda _: _.mvp
