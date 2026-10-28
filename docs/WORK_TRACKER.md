@@ -3,7 +3,7 @@
 
 # The work tracker
 
-The demo application of mbse-basis' schema-driven visualization ([FEA-001: schema-driven UI](../../mbse-basis/docs/features/FEA-001.md)), from the workspace's `VISUALIZATION.md`.
+The demo application of mbse-basis' schema-driven visualization ([FEA-001: schema-driven UI](../../mbse-basis/docs/features/FEA-001.md)).
 
 The single-user demo's MBSE app tracks work. Its schemas and seed data are in
 `mbse-demo-apps/python3/mbse/Demos/Apps/WorkTracker`.
