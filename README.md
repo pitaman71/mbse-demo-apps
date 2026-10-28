@@ -1,7 +1,11 @@
+<!-- nav -->
+[The work tracker →](docs/WORK_TRACKER.md)
+
 # mbse-demo-apps
 
 Demo applications for the mbse repositories: small, complete models that show a schema-driven app working end to end,
-from its schemas to the index site that presents them (`../VISUALIZATION.md` in the workspace).
+from its schemas to the index site that presents them (mbse-basis FEA-001; the work tracker's model is
+[docs/WORK_TRACKER.md](docs/WORK_TRACKER.md)).
 
 | App | Language | What it shows |
 |---|---|---|
@@ -32,3 +36,8 @@ mbse-react, and mbse-dynamodb for `dynamodb`), uv, npm, curl, and Docker for `dy
 *Decided by the agent, for review:* the script runs mbse-rest, mbse-dynamodb and mbse-react as they are checked out,
 without pinning them in `siblings.json`: mbse-rest pins this repository (its tests and corpus run the WorkTracker), and
 pinning it back would make the siblings a cycle, which `polyrepo.py land` cannot order.
+
+---
+
+<!-- nav -->
+[The work tracker →](docs/WORK_TRACKER.md)
