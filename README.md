@@ -4,7 +4,7 @@
 # mbse-demo-apps
 
 Demo applications for the mbse repositories: small, complete models that show a schema-driven app working end to end,
-from its schemas to the index site that presents them (mbse-basis FEA-001; the work tracker's model is
+from its schemas to the index site that presents them (mbse-basis [FEA-001: schema-driven UI](../mbse-basis/docs/features/FEA-001.md); the work tracker's model is
 [docs/WORK_TRACKER.md](docs/WORK_TRACKER.md)).
 
 | App | Language | What it shows |
@@ -21,7 +21,7 @@ cd python3 && uv sync && uv run pytest
 ## Running the demo
 
 The single-user demo (VISUALIZATION.md, Priorities): the WorkTracker served by mbse-rest and browsed with mbse-react,
-its store kept in memory or in DynamoDB Local (FEA-006, CAP-013).
+its store kept in memory or in DynamoDB Local ([FEA-006: persistence](../mbse-basis/docs/features/FEA-006.md), [CAP-013: an in-memory store journaled to DynamoDB](../mbse-basis/docs/capabilities/CAP-013.md)).
 
 ```sh
 scripts/demo.sh              # in memory: a fresh store each run

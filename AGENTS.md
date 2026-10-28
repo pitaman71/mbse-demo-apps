@@ -1,7 +1,7 @@
 # Guide for AI agents
 
 Demo applications for the mbse repositories, one package per app under `mbse.Demos.Apps`, laid out as every mbse repository is (`python3/mbse/Demos/Apps/WorkTracker`). Each app's
-schemas are a module-scope `install(txn)`, written out in the builders' fluent syntax (mbse-basis PRI-019), and its seed
+schemas are a module-scope `install(txn)`, written out in the builders' fluent syntax (mbse-basis [PRI-019: fluent builder syntax](../mbse-basis/docs/PRINCIPLES.md#PRI-019)), and its seed
 data a transaction of its own.
 
 ## Invariants
@@ -11,7 +11,8 @@ data a transaction of its own.
 - **Siblings are checkouts beside this repository**, pinned by commit in `siblings.json`. Other agents may be working in
   them: never edit a sibling from here.
 - **Every element an app's UI browses has a reference**: owned by a singleton directory, keyed by an ID its naming
-  pattern generates, or a singleton itself (mbse-basis FEA-003).
+  pattern generates, or a singleton itself. Logical views designate every object by its reference, and only singletons
+  and owned objects have one (mbse-basis [FEA-003: no-code logical views](../mbse-basis/docs/features/FEA-003.md)).
 - **Tests run with pytest** from `python3/`: `uv sync && uv run pytest`. Use uv, never pip.
 - **mbse-rest tests and builds its golden corpus over the WorkTracker** (`Schemas.install`, `Seed.seed`), pinned in
   its `siblings.json`: a change to the WorkTracker's schemas or seed changes mbse-rest's corpus, so land it with a
@@ -24,7 +25,7 @@ data a transaction of its own.
   every sibling). Never commit to `main`. When done, open one pull request per repository with `gh pr create`,
   listing the decisions for review.
 - Where the capabilities are silent, take the simplest default consistent with them and with mbse-schemas, record it
-  under "Decided by the agent, for review" (for the REST contract, in mbse-rest's `docs/CONTRACT.md`, from mbse-rest's
+  under "Decided by the agent, for review" (for the REST contract, in mbse-rest's [`docs/CONTRACT.md`](../mbse-rest/docs/CONTRACT.md), from mbse-rest's
   own work; otherwise in this repository's docs), and keep going.
 - Stop and report (do not work around) for: a gap or bug in mbse-schemas; an outward-facing action beyond pushing
   branches and opening pull requests in these repositories; anything destructive (force-push, deleting branches or

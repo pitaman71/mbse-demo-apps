@@ -3,7 +3,7 @@
 
 # The work tracker
 
-The demo application of mbse-basis' schema-driven visualization (FEA-001), from the workspace's `VISUALIZATION.md`.
+The demo application of mbse-basis' schema-driven visualization ([FEA-001: schema-driven UI](../../mbse-basis/docs/features/FEA-001.md)), from the workspace's `VISUALIZATION.md`.
 
 The single-user demo's MBSE app tracks work. Its schemas and seed data are in
 `mbse-demo-apps/python3/mbse/Demos/Apps/WorkTracker`.
@@ -53,7 +53,7 @@ moves.
   properties are `original`, `forecast` and `completed` (dates as ISO 8601
   text) and `progress` (a fraction from 0 to 1).
 - `title` and `description` give each element's label and summary by
-  mbse-basis CAP-005's convention.
+  mbse-basis [CAP-005: label and summary view](../../mbse-basis/docs/capabilities/CAP-005.md)'s convention.
 
 ---
 
