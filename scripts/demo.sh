@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# The single-user demo (VISUALIZATION.md, Priorities): the WorkTracker served by mbse-rest, persisted in memory or in
+# The single-user demo ([mbse-basis/proposals/PRIORITIES.md, single-user demo](../../mbse-basis/proposals/PRIORITIES.md#single-user-demo-with-schema-driven-index-site-for-any-mbse-app)): the WorkTracker served by mbse-rest, persisted in memory or in
 # DynamoDB Local (FEA-006, CAP-013), and browsed with mbse-react (FEA-004, FEA-005).
 #
 #   scripts/demo.sh [memory|dynamodb] [--check]

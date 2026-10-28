@@ -20,7 +20,7 @@ cd python3 && uv sync && uv run pytest
 
 ## Running the demo
 
-The single-user demo (VISUALIZATION.md, Priorities): the WorkTracker served by mbse-rest and browsed with mbse-react,
+The single-user demo ([mbse-basis/proposals/PRIORITIES.md, single-user demo](../mbse-basis/proposals/PRIORITIES.md#single-user-demo-with-schema-driven-index-site-for-any-mbse-app)): the WorkTracker served by mbse-rest and browsed with mbse-react,
 its store kept in memory or in DynamoDB Local ([FEA-006: persistence](../mbse-basis/docs/features/FEA-006.md), [CAP-013: an in-memory store journaled to DynamoDB](../mbse-basis/docs/capabilities/CAP-013.md)).
 
 ```sh
