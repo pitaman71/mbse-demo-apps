@@ -229,7 +229,7 @@ def install(txn: Any) -> Any:
 
 
 def history(txn: Any) -> Any:
-    """The WorkTracker's schemas that have a history (VISUALIZATION.md, CAP-015): its comments, each with the
+    """The WorkTracker's schemas that have a history (mbse-basis CAP-015): its comments, each with the
     transaction that created it and the latest that wrote it, its session and identity. Run after `install` and
     `Provenance.install`; run again, it writes nothing."""
     return Provenance.extend(txn, [txn.work.Comment])
