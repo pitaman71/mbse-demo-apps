@@ -3,24 +3,27 @@
 Demo applications for the mbse repositories, one package per app under `mbse.Demos.Apps` (`python3/mbse/Demos/Apps/WorkTracker`, mbse-basis [PRI-030: one package layout](../mbse-basis/docs/PRINCIPLES.md#PRI-030)). Each app's
 schemas are a module-scope `install(txn)` ([PRI-019: fluent builder syntax](../mbse-basis/docs/PRINCIPLES.md#PRI-019)), and its seed data a transaction of its own.
 
-## Invariants
+## Read before any work
 
-The conventions every mbse repository shares are stated once in mbse-basis; this file cites them and keeps
-only what differs here.
+Agents must read these mbse-basis documents before doing any work:
 
-- **Vocabulary**: [VOC-007: property](../mbse-basis/docs/VOCABULARY.md#VOC-007) and [VOC-026: schema](../mbse-basis/docs/VOCABULARY.md#VOC-026), each qualified with whose it is where
-  it meets a language's own term ([the vocabulary](../mbse-basis/docs/VOCABULARY.md), its introduction).
-- **Models and packages**: [PRI-019: fluent builder syntax](../mbse-basis/docs/PRINCIPLES.md#PRI-019) and [PRI-030: one package layout](../mbse-basis/docs/PRINCIPLES.md#PRI-030).
-- **Documents**: navigation lines, the README opening with why, and what this file holds ([Rules for every document](../mbse-basis/docs/README.md#rules-for-every-document)).
-- **Work**: [PRI-029: parallel work in polyrepo workspaces](../mbse-basis/docs/PRINCIPLES.md#PRI-029), [PRI-031: the version is the contract](../mbse-basis/docs/PRINCIPLES.md#PRI-031), [PRI-032: a sibling's gap is reported, not worked around](../mbse-basis/docs/PRINCIPLES.md#PRI-032) and [PRI-033: work lands by branch and pull request](../mbse-basis/docs/PRINCIPLES.md#PRI-033).
-- **What this repository builds is specified in mbse-basis' features and capabilities**, cited by ID ([Detail files](../mbse-basis/docs/README.md#detail-files)).
-- **Every element an app's UI browses has a reference** ([FEA-003: no-code logical views](../mbse-basis/docs/features/FEA-003.md)): owned by a singleton
-  directory, keyed by an ID its naming pattern generates, as [the work tracker](docs/WORK_TRACKER.md)'s are, or a
-  singleton itself.
-- **mbse-rest tests and builds its golden corpus over the WorkTracker** (`Schemas.install`, `Seed.seed`), pinned in
-  its `siblings.json`: a change to the WorkTracker's schemas or seed changes mbse-rest's corpus, so land it with a
-  new pin and a regenerated corpus there.
-- Never write to `~/.claude/projects/*/memory/` or any hidden memory: what is worth keeping goes in the repository.
+- [The mbse basis](../mbse-basis/docs/README.md)
+- [Principles](../mbse-basis/docs/PRINCIPLES.md)
+- [Features](../mbse-basis/docs/features/README.md)
+- [Capabilities](../mbse-basis/docs/capabilities/README.md)
+
+These may be read selectively, on demand: [Vocabulary](../mbse-basis/docs/VOCABULARY.md) and
+[Qualities](../mbse-basis/docs/QUALITIES.md).
+
+Never write to `~/.claude/projects/*/memory/` or any hidden memory: what is worth keeping goes in the repository.
+
+## This repository
+
+- Every element an app's UI browses has a reference: it is owned by a singleton directory and keyed by an ID its
+  naming pattern generates, as [the work tracker](docs/WORK_TRACKER.md)'s elements are, or it is a singleton itself.
+- mbse-rest tests and builds its golden corpus over the WorkTracker (`Schemas.install`, `Seed.seed`), pinned in its
+  `siblings.json`: a change to the WorkTracker's schemas or seed changes mbse-rest's corpus, so land it with a new pin
+  and a regenerated corpus there.
 
 ## Commands
 
