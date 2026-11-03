@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# The single-user demo ([CAP-207: a work-tracking demo app](../../mbse-basis/docs/capabilities/CAP-207.md)): the WorkTracker served by mbse-rest, persisted in memory or in
+# The single-user demo ([CAP-207: a work-tracking demo app](mbse:mbse-basis/docs/capabilities/CAP-207.md)): the WorkTracker served by mbse-rest, persisted in memory or in
 # DynamoDB Local (FEA-006, CAP-013), and browsed with mbse-react (FEA-004, FEA-005).
 #
 #   scripts/demo.sh [memory|dynamodb] [--check]
