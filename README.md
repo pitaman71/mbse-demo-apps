@@ -5,14 +5,14 @@
 
 Demo applications for the mbse repositories: small, complete models that show a schema-driven app working end to end,
 from its schemas to the index site that presents them (mbse-basis [FEA-001: schema-driven UI](https://github.com/pitaman71/mbse-basis/blob/main/docs/features/FEA-001.md); the work tracker's model is
-[docs/WORK_TRACKER.md](docs/WORK_TRACKER.md)).
+[The work tracker](docs/WORK_TRACKER.md)).
 
 | App | Language | What it shows |
 |---|---|---|
 | [WorkTracker](python3/mbse/Demos/Apps/WorkTracker) | Python | Projects, features, capabilities, results and tasks, with comments and schedules; every element owned by its schema's directory under a permanent ID |
 
 Each app depends on its mbse siblings as checkouts beside this repository (`../mbse-schemas`), pinned in
-[siblings.json](siblings.json).
+`siblings.json`.
 
 ```sh
 cd python3 && uv sync && uv run pytest
