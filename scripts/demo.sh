@@ -50,14 +50,14 @@ wait_for() {  # wait_for <url> <what>: until the URL answers, 60 seconds at most
 if [ "$mode" = dynamodb ]; then
   echo "== DynamoDB Local on $db_port"
   docker run -d --rm --name "$container" -p "$db_port:8000" amazon/dynamodb-local >/dev/null
-  service_env="$workspace/mbse-dynamodb/python3"  # mbse-rest, the plugin and the WorkTracker
-  export MBSE_REST_PLUGIN=mbse.Persistence.DynamoDB.Plugin:Plugin
+  service_env="$workspace/mbse-dynamodb/python3"  # mbse-rest, the store kept in DynamoDB and the WorkTracker
+  export MBSE_REST_STORE=mbse.Persistence.DynamoDB.Store:Store
   export MBSE_DYNAMODB_ENDPOINT_URL="http://localhost:$db_port" MBSE_DYNAMODB_TABLE=mbse-demo
   export AWS_REGION=us-east-1 AWS_ACCESS_KEY_ID=local AWS_SECRET_ACCESS_KEY=local  # DynamoDB Local takes any
   sleep 2
 else
   service_env="$workspace/mbse-rest/python3"  # mbse-rest and the WorkTracker, a development dependency
-  export MBSE_REST_PLUGIN=memory
+  export MBSE_REST_STORE=memory
 fi
 
 echo "== mbse-rest on $api_port ($mode)"
