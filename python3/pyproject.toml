@@ -4,10 +4,10 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "mbse-demo-apps"
-version = "0.1.1"
+version = "0.1.2"
 description = "Demo applications for the mbse repositories: schema-driven apps end to end"
 requires-python = ">=3.11"
-dependencies = ["mbse-schemas>=0.28.1,<0.29"]
+dependencies = ["mbse-schemas>=0.29.0,<0.30"]
 
 [tool.setuptools.packages.find]
 include = ["mbse*"]
